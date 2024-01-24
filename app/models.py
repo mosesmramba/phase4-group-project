@@ -22,6 +22,13 @@ class Car(db.Model):
     available = db.Column(db.Boolean, default=True)
     bookings = db.relationship('Booking', backref='car', lazy=True)
     reviews = db.relationship('CarReview', backref='car', lazy=True)
+    
+    def calculate_average_car_rating(self):
+        reviews = CarReview.query.filter_by(car_id=self.id).all()
+        total_rating = sum(review.rating for review in reviews)
+        num_reviews = len(reviews)
+        self.average_rating = total_rating / num_reviews if num_reviews > 0 else 0.0
+        db.session.commit()
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
