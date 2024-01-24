@@ -10,6 +10,7 @@ flask-migrate = "*"
 faker = "*"
 flask-restful = "*"
 sqlalchemy-serializer = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 

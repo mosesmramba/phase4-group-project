@@ -1,29 +1,35 @@
 from models import db, User, Car, Booking, CarReview
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+
+from views import *
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db.sqlite" 
 db.init_app(app)
-migrate = Migrate(app, db)  
+migrate = Migrate(app, db) 
 
-#GET all users
-@app.route("/users")
-def get_users():
-    users = User.query.all()
-    user_list = []
-    for user in users:
-        user_list.append({
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'phone': user.phone,
+jwt = JWTManager()
+app.config["JWT_SECRET_KEY"] = "defqoweqyreihghc"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+jwt.init_app(app)
 
-        })
-    return jsonify({"users": user_list}),200
-#fetching single user
+app.register_blueprint(user_bp)
+app.register_blueprint(car_bp)
+app.register_blueprint(booking_bp)
+app.register_blueprint(car_review_bp)
+app.register_blueprint(auth_bp)
 
+@jwt.token_in_blocklist_loader
+def token_in_blocklist_call(jwt_header, jwt_data):
+    jti = jwt_data['jti']
+    token = TokenBlocklist.query.filter_by(jti=jti).first()
+    if token:
+        return token 
+    else:
+        return None
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

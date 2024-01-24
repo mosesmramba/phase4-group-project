@@ -1,63 +1,85 @@
 from app import app, db, User, Car, Booking, CarReview
 from datetime import datetime, timedelta
+from faker import Faker
+from random import choice as rc
+
+fake = Faker()
 
 def seed_data():
     with app.app_context():
         # Users
-        user1 = User(username='user1', password='password1', email='user1@example.com', phone='1234567890')
-        user2 = User(username='user2', password='password2', email='user2@example.com', phone='9876543210')
-        user3 = User(username='user3', password='password3', email='user3@example.com', phone='7896542320')
-        user4 = User(username='user4', password='password4', email='user4@example.com', phone='7891112320')
-        user5 = User(username='user5', password='password5', email='user5@example.com', phone='7896566320')
+        users = []
+        for _ in range(20):
+            user = User(
+                username=fake.user_name(),
+                email=fake.email(),
+                phone=fake.phone_number(),
+                password='password'
+            )
+            users.append(user)
 
-        db.session.add_all([user1, user2, user3, user4, user5])
+        db.session.add_all(users)
 
         # Cars
-        car1 = Car(name='Car1', brand='Mercedes', model='SUV', year=2017, color='Red', available=True)
-        car2 = Car(name='Car2', brand='BMW', model='Sport Car', year=2015, color='White', available=True)
-        car3 = Car(name='Car3', brand='Toyota', model='Sedan', year=2021, color='Silver', available=True)
-        car4 = Car(name='Car4', brand='Toyota', model='PickUp', year=2011, color='Black', available=True)
-        car5 = Car(name='Car5', brand='Subaru', model='HatchBack', year=2018, color='Blue', available=True)
-        db.session.add_all([car1, car2, car3, car4, car5])
+        cars = []
+        for _ in range(20):
+            car = Car(
+                image=fake.image_url(),
+                name=fake.word(),
+                brand=rc([
+                    "Toyota", "Nissan", "Mazda", "Subaru", "Mercedes-Benz",
+                    "Alfa Romeo", "Audi", "Bentley", "BMW", "Chevrolet",
+                    "Chrysler", "Citroen", "Dodge", "Ford", "Honda", "Hyundai",
+                    "Infiniti", "Isuzu", "Jaguar", "Jeep", "Kia", "Land Rover",
+                    "Lexus", "Mini", "Mitsubishi", "Peugeot", "Porsche",
+                    "Renault", "Suzuki", "Volkswagen", "Volvo"
+                ]),
+                model=rc(['Van', 'SUV', 'Station Wagon', 'Sedan', 'Pickup', 'Minivan', 'Hatchback',
+                          'Crossover', 'Coupe', 'Convertible', 'Truck', 'Electric', 'Hybrid', 'Luxury',
+                          'Sports Car', 'Compact Car', 'Roadster', 'Limousine', 'Off-road Vehicle',
+                           'Vintage Car', 'Muscle Car', 'Wagon', 'Compact SUV', 'Midsize SUV',
+                          'Full-size SUV', 'Subcompact Car', 'Compact Pickup', 'Full-size Pickup', 'Convertible SUV',
+                          'Supercar', 'Race Car'
+                          ]),
+                year=fake.random_int(min=2000, max=2022),
+                color=fake.color_name(),
+                available=True,
+                daily_rate=fake.random_int(min=2000, max=15000)  
+            )
+            cars.append(car)
 
-        # Daily rate for the car
-        daily_rate = 3000  
-        # Bookings with different start and end dates and dynamically calculated price
-        booking1_start = datetime.utcnow()
-        booking1_end = booking1_start + timedelta(days=1)
-        booking1_price = daily_rate * (booking1_end - booking1_start).days
-        booking1 = Booking(start_date=booking1_start, end_date=booking1_end, user=user1, car=car1, price=booking1_price)
+        db.session.add_all(cars)
 
-        booking2_start = datetime.utcnow()
-        booking2_end = booking2_start + timedelta(days=2)
-        booking2_price = daily_rate * (booking2_end - booking2_start).days
-        booking2 = Booking(start_date=booking2_start, end_date=booking2_end, user=user2, car=car2, price=booking2_price)
+        # Bookings with different start and end dates and calculated price
+        bookings = []
+        for i in range(20):
+            start_date = datetime.utcnow() + timedelta(days=i)
+            end_date = start_date + timedelta(days=i + 1)
+            price = car.daily_rate * (end_date - start_date).days
 
-        booking3_start = datetime.utcnow()
-        booking3_end = booking3_start + timedelta(days=3)
-        booking3_price = daily_rate * (booking3_end - booking3_start).days
-        booking3 = Booking(start_date=booking3_start, end_date=booking3_end, user=user3, car=car3, price=booking3_price)
+            booking = Booking(
+                start_date=start_date,
+                end_date=end_date,
+                user=rc(users),
+                car=rc(cars),
+                price=price
+            )
+            bookings.append(booking)
 
-        booking4_start = datetime.utcnow()
-        booking4_end = booking4_start + timedelta(days=4)
-        booking4_price = daily_rate * (booking4_end - booking4_start).days
-        booking4 = Booking(start_date=booking4_start, end_date=booking4_end, user=user4, car=car4, price=booking4_price)
+        db.session.add_all(bookings)
 
-        booking5_start = datetime.utcnow()
-        booking5_end = booking5_start + timedelta(days=5)
-        booking5_price = daily_rate * (booking5_end - booking5_start).days
-        booking5 = Booking(start_date=booking5_start, end_date=booking5_end, user=user5, car=car5, price=booking5_price)
-
-        db.session.add_all([booking1, booking2, booking3, booking4, booking5])
-      
         # CarReviews
-        review1 = CarReview(rating=5, comment='Great car!', user=user1, car=car1)
-        review2 = CarReview(rating=4, comment='Nice experience!', user=user2, car=car2)
-        review3 = CarReview(rating=3, comment='Nice experience!', user=user3, car=car3)
-        review4 = CarReview(rating=2, comment='Unreliable!', user=user4, car=car4)
-        review5 = CarReview(rating=1, comment='Power cut out!', user=user5, car=car5)
+        reviews = []
+        for i in range(20):
+            review = CarReview(
+                rating=rc(range(1, 5)),
+                comment=fake.text(),
+                user=rc(users),
+                car=rc(cars)
+            )
+            reviews.append(review)
 
-        db.session.add_all([review1, review2, review3, review4, review5])
+        db.session.add_all(reviews)
 
         # Commit the changes to the database
         db.session.commit()
