@@ -1,6 +1,7 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LandingPage from './components/LandingPage';
 import SignInPage from './components/auth/SignInPage';
 import SignUpPage from './components/auth/SignUpPage';
 import ViewCarsPage from './components/pages/ViewCarsPage';
@@ -10,25 +11,38 @@ import ProfilePage from './components/pages/ProfilePage';
 const App = () => {
   return (
     <Router>
-      <div className="container">
+      <div>
         <nav>
-          <ul className="flex justify-end">
+          <ul>
             <li>
-              <Link to="/signin">Sign In</Link>
+              <a href="/">Home</a>
             </li>
             <li>
-              <Link to="/signup">Sign Up</Link>
+              <a href="/signin">Sign In</a>
+            </li>
+            <li>
+              <a href="/signup">Sign Up</a>
+            </li>
+            <li>
+              <a href="/view-cars">View Cars</a>
+            </li>
+            <li>
+              <a href="/rent-car">Rent Car</a>
+            </li>
+            <li>
+              <a href="/profile">Profile</a>
             </li>
           </ul>
         </nav>
 
-        <Switch>
-          <Route path="/signin" component={SignInPage} />
-          <Route path="/signup" component={SignUpPage} />
-          <Route path="/viewcars" component={ViewCarsPage} />
-          <Route path="/rentcar" component={RentCarPage} />
-          <Route path="/profile" component={ProfilePage} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/view-cars" element={<ViewCarsPage />} />
+          <Route path="/rent-car" element={<RentCarPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
       </div>
     </Router>
   );
