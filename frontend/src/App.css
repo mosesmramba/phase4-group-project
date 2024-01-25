@@ -1,48 +1,46 @@
 /* src/App.css */
 body {
-  background-image: url('../public/images/Beyond\ Exclusivity_\ Diving\ into\ the\ World\'s\ Most\ Luxurious\ Cars.jpeg');
-  background-size: cover;
-  background-position: center;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
   margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: black; /* Set the background color of the entire page */
+  color: white; /* Set the default text color */
 }
 
 .container {
-  max-width: 500px;
-  margin: auto;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
 }
 
 nav {
-  margin-top: 100px; 
-  margin-right: 20px; 
   display: flex;
-  justify-content: flex-end; /* Align links to the right */
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333; /* Set the background color of the navigation bar */
 }
 
 nav ul {
   list-style: none;
-  padding: 0;
   display: flex;
+  gap: 20px;
 }
 
 nav li {
-  font-size: 24px;
-  margin-left: 20px; /* Added margin-left to create space between links */
+  font-size: 18px;
 }
 
 nav a {
   text-decoration: none;
-  color: #fff; /* Change link color */
+  color: white;
 }
 
 nav a:hover {
   color: cyan;
 }
+
+/* Add specific styles for your form, input, and button elements */
 
 form {
   display: flex;
@@ -72,3 +70,5 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+/* Additional styling for specific components or pages */
