@@ -5,7 +5,7 @@ user_bp = Blueprint('user_bp', __name__)
 
 #USER CRUD
 #ADDING A USER
-@user_bp.route("/users", methods=['POST'])
+@user_bp.route("/signup", methods=['POST'])
 def add_users():
     data = request.form
     username = data.get('username')
@@ -76,7 +76,7 @@ def update_password(user_id):
         return jsonify({"success": "Password updated successfully"}), 200
     else:
         return jsonify({"error": "User not found"}), 404
-# UPDATE A USER
+# UPDATE A USER password and username
 @user_bp.route("/users/<int:user_id>", methods=["PUT"])
 def update_user(user_id):
     user = User.query.get(user_id)
@@ -85,20 +85,16 @@ def update_user(user_id):
         data = request.form
         username = data.get('username')
         password = data.get('password')
-        email = data.get('email')
-        phone = data.get('phone')
+        
 
         check_username = User.query.filter_by(username=username).first()
-        check_email = User.query.filter_by(email=email).first()
 
-        if check_username or check_email:
-            return jsonify({"error": "Invalid username or email, already exists"})
+        if check_username:
+            return jsonify({"error": "Invalid username, already exists"})
         else:
             user.username = username
             user.password = password
-            user.email = email
-            user.phone = phone
-
+           
             db.session.commit()
             return jsonify({"success": "Updated user successfully"}), 200
 

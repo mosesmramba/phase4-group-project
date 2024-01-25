@@ -6,7 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 booking_bp = Blueprint('booking_bp', __name__)
 
 # Create a new booking POST
-@booking_bp.route("/bookings", methods=['POST'])
+@booking_bp.route("/rent-vehicle", methods=['POST'])
 @jwt_required() 
 def add_booking():
     current_user_id = get_jwt_identity()

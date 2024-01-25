@@ -29,6 +29,7 @@ class Car(db.Model):
     daily_rate = db.Column(db.Integer, nullable=False) 
     bookings = db.relationship('Booking', backref='car', lazy=True,cascade="all, delete-orphan")
     reviews = db.relationship('CarReview', backref='car', lazy=True)
+    
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)

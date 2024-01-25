@@ -1,6 +1,6 @@
 from models import db, Car, CarReview
 from flask import Flask, jsonify, request, Blueprint
-from flask_jwt_extended import  jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 car_bp = Blueprint('car_bp', __name__)
 
@@ -66,6 +66,7 @@ def get_car(car_id):
         return jsonify({"cars": car_list}), 200
     else:
         return jsonify({"error": "Car not found"}), 404
+    
 
 # UPDATING CAR DETAILS
 @car_bp.route("/cars/<int:car_id>/availability", methods=["PUT"])
