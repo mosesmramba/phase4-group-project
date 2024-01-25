@@ -1,24 +1,21 @@
 import React from 'react';
-import car from '../images/car.png';
+import { Link } from 'react-router-dom';
+import Layout from './layout/Layout';  // Assuming you have a Layout component
 
-function LandingPage() {
+const LandingPage = () => {
   return (
-    <div className='bg-orange-600'>
-        <main className="py-16">
-            <section className="hero flex items-center justify-between text-center">
-                <div className="w-1/2 pr-4">
-                    <h1 className="text-5xl text-white font-mono font-bold mb-4">Discover the Freedom of the Open Road</h1>
-                    <p className="text-white text-2xl font-mono mb-4">
-                        We are thrilled to have you here, ready to embark on a journey of convenience and style. 
-                        Whether you're planning a weekend getaway, a business trip, 
-                        or just need a reliable set of wheels for everyday adventures, we've got you covered.
-                    </p>
-                </div>
-                <img src={car} alt="Car" className="w-1/2 mx-auto my-4" />
-            </section>
-        </main>
-    </div>
+    <Layout>
+      <div className="container mx-auto py-16">
+        <h1 className="text-4xl font-bold mb-8">Welcome to Rent-A-Car!</h1>
+        <p className="text-lg mb-6">
+          Explore our collection of high-quality cars and find the perfect vehicle for your needs.
+        </p>
+        <Link to="/cars" className="btn btn-primary">
+          View Cars
+        </Link>
+      </div>
+    </Layout>
   );
-}
+};
 
 export default LandingPage;
