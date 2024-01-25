@@ -1,6 +1,7 @@
 from models import db, User
 from flask import Flask, jsonify, request, Blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import jwt_required, get_jwt_identity
 user_bp = Blueprint('user_bp', __name__)
 
 #USER CRUD
@@ -58,6 +59,7 @@ def get_user(user_id):
 
 # Update or Reset Password
 @user_bp.route("/users/<int:user_id>/password", methods=['PUT'])
+@jwt_required() 
 def update_password(user_id):
     user = User.query.get(user_id)
 
@@ -78,6 +80,7 @@ def update_password(user_id):
         return jsonify({"error": "User not found"}), 404
 # UPDATE A USER password and username
 @user_bp.route("/users/<int:user_id>", methods=["PUT"])
+@jwt_required() 
 def update_user(user_id):
     user = User.query.get(user_id)
 
