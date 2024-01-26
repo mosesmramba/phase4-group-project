@@ -6,7 +6,7 @@ const CarDetails = ({ carId }) => {
   const car = cars.find((car) => car.id === carId);
 
   if (!car) {
-    return <div>Loading...</div>; // You might want to handle the case where the car is not found differently
+    return <div>{carId}</div>; // You might want to handle the case where the car is not found differently
   }
 
   return (

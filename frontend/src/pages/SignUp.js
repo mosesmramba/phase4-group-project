@@ -3,16 +3,6 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png';
 
-const useNavigation = () => {
-  const navigate = useNavigate();
-
-  const redirectTo = (path) => {
-    navigate(path);
-  };
-
-  return { redirectTo };
-};
-
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -20,7 +10,7 @@ const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { redirectTo } = useNavigation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,7 +48,8 @@ const SignUpPage = () => {
           text: 'User signed up successfully!',
         });
 
-        redirectTo('/');
+        // Redirect to the home page
+        navigate('/login');
       } else {
         const data = await response.json();
         Swal.fire({

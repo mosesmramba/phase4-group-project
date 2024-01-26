@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png';
 import loginImage from '../images/login.jpg';
 import Swal from 'sweetalert2';
@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,7 +28,13 @@ const LoginPage = () => {
         const data = await response.json();
         // Store the access token in localStorage or a state management solution
         console.log('Access Token:', data.access_token);
-        // Redirect to the home page or any other page as needed
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'User logged in successfully!',
+        });
+        // Redirect to the cars page after successful login
+        navigate('/cars');
       } else {
         const data = await response.json();
         Swal.fire({

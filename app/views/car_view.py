@@ -50,9 +50,8 @@ def get_cars():
 @car_bp.route("/cars/<int:car_id>")
 def get_car(car_id):
     car = Car.query.get(car_id)
-    car_list = []
     if car:
-        car_list.append({
+        car_list={
             'id': car.id,
             'image':car.image,
             'name': car.name,
@@ -62,8 +61,8 @@ def get_car(car_id):
             'color': car.color,
             'daily_rate': car.daily_rate,
             'available': car.available,
-        })
-        return jsonify({"cars": car_list}), 200
+        }
+        return jsonify(car_list), 200
     else:
         return jsonify({"error": "Car not found"}), 404
     

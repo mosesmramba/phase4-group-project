@@ -7,7 +7,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    phone = db.Column(db.String(14), nullable=True)
+    phone = db.Column(db.String(14), unique=True,nullable=True)
     password = db.Column(db.String(450),unique=False, nullable=False)
     bookings = db.relationship('Booking', backref='user', lazy=True, cascade='all, delete-orphan')
     reviews = db.relationship('CarReview', backref='user', lazy=True, cascade='all, delete-orphan')

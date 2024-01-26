@@ -11,7 +11,7 @@ const Bookings = () => {
     const fetchBookings = async () => {
       try {
         const token = localStorage.getItem('your_auth_token_key'); // replace with your actual token key
-        const response = await fetch('/https://127.0.0.1:5000/bookings', {
+        const response = await fetch('/bookings', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

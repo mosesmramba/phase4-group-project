@@ -17,9 +17,10 @@ def add_users():
 
     check_username = User.query.filter_by(username=username).first()
     check_email = User.query.filter_by(email=email).first()
+    check_phone = User.query.filter_by(phone=phone).first()
 
-    if check_username or check_email:
-        return jsonify({"error": "Invalid username or email, already exists"})
+    if check_username or check_email or check_phone:
+        return jsonify({"error": "Invalid username or email or phone, already exists"}),404
     else:
         new_user = User(username=username, password=password, email=email, phone=phone)
         db.session.add(new_user)

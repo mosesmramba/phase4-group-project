@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import CarDetails from '../components/CarDetails';
 import { useCarContext } from '../contexts/CarContext';
 
 const Cars = () => {
   const { cars, deleteCar, updateCarAvailability } = useCarContext();
-  const [selectedCarId, setSelectedCarId] = useState(null);
 
   const handleDelete = (carId) => {
     if (window.confirm('Are you sure you want to delete this car?')) {
@@ -17,10 +15,6 @@ const Cars = () => {
     updateCarAvailability(carId, !available);
   };
 
-  const handleCarClick = (carId) => {
-    setSelectedCarId(carId);
-  };
-
   return (
     <div className="container mx-auto p-4 bg-orange-600">
       <h1 className="text-3xl font-semibold mb-4 text-center text-white">Our Fleet</h1>
@@ -30,7 +24,6 @@ const Cars = () => {
           <Link
             to={`/cars/${car.id}`} // Use React Router Link to navigate to CarDetails.js
             key={car.id}
-            onClick={() => handleCarClick(car.id)} // Set the selected car id
             className="hover:cursor-pointer"
           >
             <div className="bg-white p-4 rounded-md shadow-md">
@@ -64,10 +57,7 @@ const Cars = () => {
                 </button>
 
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleDelete(car.id);
-                  }}
+                  onClick={() => handleDelete(car.id)}
                   className="bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer"
                 >
                   Delete
@@ -77,9 +67,6 @@ const Cars = () => {
           </Link>
         ))}
       </div>
-
-      {/* Display CarDetails.js component when a car is selected */}
-      {selectedCarId && <CarDetails carId={selectedCarId} />}
     </div>
   );
 };
