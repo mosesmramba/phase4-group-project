@@ -1,19 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import ProfilePage from './pages/ProfilePage';
-import RentCarPage from './pages/RentCarPage';
-import ViewCarsPage from './pages/ViewCarsPage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LandingPage from './components/LandingPage';
+import ProfilePage from './components/pages/ProfilePage';
+import RentCarPage from './components/pages/RentCarPage';
+import ViewCarsPage from './components/pages/ViewCarsPage';
+import SignUpPage from './components/auth/SignUpPage';  
+import LoginPage from './components/auth/LogInPage';    
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact component={LandingPage} />
-        <Route path="/profile" component={ProfilePage} />
-        <Route path="/rent-vehicle" component={RentCarPage} />
-        <Route path="/cars" component={ViewCarsPage} />
-      </Switch>
+      <Routes>
+          <Route path="/" element={<LandingPage />} />
+         <Route path="/profile" element={<ProfilePage />} />
+         <Route path="/rent-vehicle" element={<RentCarPage />} />
+         <Route path="/cars" element={<ViewCarsPage />} />
+         <Route path="/signup" element={<SignUpPage />} />
+         <Route path="/login" element={<LoginPage />} />
+        </Routes>
     </Router>
   );
 }
