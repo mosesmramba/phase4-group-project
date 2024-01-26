@@ -6,9 +6,7 @@ const Layout = ({ children }) => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto my-8">
-        {children}
-      </div>
+      {children}
       <Footer />
     </div>
   );
