@@ -1,118 +1,188 @@
-import React from "react";
-import logo from "../images/logo.png";
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import logo from '../images/logo.png';
 
-function SignUpPage() {
-    return (
-        <div className="container py-4 flex h-screen">
-            <div className="w-full mx-auto flex items-center justify-center bg-orange-600">
-                <div className="w-full max-w-lg p-8 bg-blue-100 rounded-lg shadow-lg">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              className="mx-auto h-32 w-auto"
-              src={logo}
-              alt="My Company Logo"
-            />
-            <h2 className="mt-10 text-center text-3xl font-mono font-bold leading-9 tracking-tight text-gray-900">
-              Sign Up for an account
-            </h2>
-          </div>
-  
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
-            <div>
+const useNavigation = () => {
+  const navigate = useNavigate();
+
+  const redirectTo = (path) => {
+    navigate(path);
+  };
+
+  return { redirectTo };
+};
+
+const SignUpPage = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { redirectTo } = useNavigation();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Passwords do not match!',
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch('/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          phone,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        handleToken(data.access_token);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'User signed up successfully!',
+        });
+
+        redirectTo('/');
+      } else {
+        const data = await response.json();
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: data.error || 'Signup failed!',
+        });
+      }
+    } catch (error) {
+      console.error('Error during signup:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred during signup!',
+      });
+    }
+  };
+
+  const handleToken = (token) => {
+    document.cookie = `authToken=${token}; path=/; secure; HttpOnly; SameSite=Strict`;
+    // You might want to decode the token and store user info as well
+  };
+
+  return (
+    <div className="container py-4 flex h-screen">
+      <div className="w-full mx-auto flex items-center justify-center bg-orange-600">
+        <div className="w-full max-w-lg p-8 bg-blue-100 rounded-lg shadow-lg">
+          <img src={logo} alt="company logo" className="w-1/2 mx-auto my-4" />
+          <h2 className="mt-10 text-center text-3xl font-mono font-bold leading-9 tracking-tight text-gray-900">
+            Sign Up for an account
+          </h2>
+
+          <form className="mt-4" onSubmit={handleSubmit}>
+            <div className="mb-4">
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
                 Username
               </label>
-              <div className="mt-2">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autoComplete="username"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-indigo-500"
+              />
             </div>
 
-            <div>
+            <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
               </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-indigo-500"
+              />
             </div>
 
-            <div>
+            <div className="mb-4">
               <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
                 Phone number
               </label>
-              <div className="mt-2">
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  autoComplete="tel"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-indigo-500"
+              />
             </div>
 
-            <div>
+            <div className="mb-4">
               <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                 Password
               </label>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-indigo-500"
+              />
             </div>
 
-            <div>
+            <div className="mb-4">
               <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">
                 Confirm Password
               </label>
-              <div className="mt-2">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-indigo-500"
+              />
             </div>
-  
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  Sign Up
-                </button>
-              </div>
-            </form>
-          </div>
+
+            <button
+              type="submit"
+              className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+            >
+              Sign Up
+            </button>
+          </form>
         </div>
       </div>
     </div>
-    )
-  }
-  
-  export default SignUpPage;
-  
+  );
+};
+
+export default SignUpPage;

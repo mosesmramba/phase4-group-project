@@ -6,11 +6,11 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 auth_bp = Blueprint('auth_bp', __name__)
 
 #LOGIN
-@auth_bp.route("/login", methods=['POST'])
+@auth_bp.route("/auth/login", methods=['POST'])
 def login():
     data = request.form
-    email = data.get('email')
-    password = data.get('password')
+    email = data['email']
+    password = data['password']
 
     user = User.query.filter_by(email=email).first()
 
