@@ -18,7 +18,10 @@ export default function Navbar()
               <Link to="/cars" className="nav-link active">Cars</Link>
             </li>
             <li className="nav-item">
-              <Link to="/rent-vehicle" className="nav-link active">Rent Vehicle</Link>
+              <Link to="/bookings" className="nav-link active">Bookings</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/carreviews" className="nav-link active">Car Reviews</Link>
             </li>
             <li className="nav-item">
               <Link to="/profile" className="nav-link active">Profile</Link>
