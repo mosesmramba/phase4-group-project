@@ -109,31 +109,3 @@ Evan Keya: evan.keya@student.moringaschool.com, +254797118632
 Juliet Musyoki: juliet.musyoki@gmail.com , +254708940979
 Moses Mramba: moses.mramba@student.moringaschool.com 0719594119
 
-3. Open the folder with VS Code.
-4. Install dependencies and enter the Python shell by running `pipenv install && pipenv shell`.
-5. Run `python3` followed by the file name to test the backend.
-6. Navigate to the project's "frontend" folder and run `npm start`.
-
-## Project Links
-- **Frontend Link:** [Add your frontend link here]
-- **Backend Link:** [Add your backend link here]
-
-## Technology Used
-- Python
-- Flask
-- React
-- JavaScript
-- CSS
-- HTML
-
-## Known Bugs
-- None
-
-## Support and Contact Details
-- Gilbert Omosa: gilbert.omosa@student.moringaschool.com, +254721713957
-- Evan Keya: evan.keya@student.moringaschool.com, +254797118632
-- Juliet Musyoki: juliet.musyoki@gmail.com, +254708940979
-- Moses Mramba: moses.mramba@student.moringaschool.com, 0719594119
-
-## License
-[Add your license information here]
