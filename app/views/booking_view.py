@@ -89,7 +89,7 @@ def get_booking(booking_id):
         return jsonify({"error": "Booking not found"}), 404
 
 # Update a booking PUT
-@booking_bp.route("/bookings/<int:booking_id>", methods=["PUT"])
+@booking_bp.route("/bookings/<int:booking_id>", methods=["PATCH"])
 @jwt_required() 
 def update_booking(booking_id):
     booking = Booking.query.get(booking_id)
@@ -98,8 +98,8 @@ def update_booking(booking_id):
         data = request.get_json()
         start_date = datetime.strptime(data['start_date'], "%Y-%m-%d %H:%M:%S")  # Assuming the date format
         end_date = datetime.strptime(data['end_date'], "%Y-%m-%d %H:%M:%S")
-        user_id = data['user_id']
-        car_id = data['car_id']
+        user_id =get_jwt_identity()
+        
 
         # Calculate price based on updated start and end dates
         daily_rate = 3000
@@ -108,9 +108,8 @@ def update_booking(booking_id):
 
         booking.start_date = start_date
         booking.end_date = end_date
-        booking.price = price
         booking.user_id = user_id
-        booking.car_id = car_id
+        
 
         db.session.commit()
         return jsonify({"success": "Updated booking successfully"}), 200

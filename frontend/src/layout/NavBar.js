@@ -27,9 +27,7 @@ export default function Navbar() {
                 <li className="nav-item">
                   <Link to="/bookings" className="nav-link active">Bookings</Link>
                 </li>
-                <li className="nav-item">
-                  <Link to="/carreviews" className="nav-link active">Car Reviews</Link>
-                </li>
+
                 <li className="nav-item">
                   <Link to="/profile" className="nav-link active">Profile</Link>
                 </li>
