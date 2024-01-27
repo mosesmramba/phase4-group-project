@@ -18,7 +18,7 @@ export const CarProvider = ({ children }) => {
     try {
       const response = await fetch('/cars');
       const data = await response.json();
-      setCars(data.cars);
+      setCars(data);
     } catch (error) {
       console.error('Error fetching cars:', error);
     }
@@ -91,8 +91,9 @@ export const CarProvider = ({ children }) => {
     }
   };
 
-  // Fetch the list of cars when the component mounts
+  // Fetch a single car
   useEffect(() => {
+    
     fetchCars();
   }, []);
 

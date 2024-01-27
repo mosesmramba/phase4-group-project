@@ -10,7 +10,7 @@ const CarReviews = () => {
   useEffect(() => {
     const fetchCarReviews = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/carreviews');
+        const response = await fetch('/carreviews');
         const data = await response.json();
         dispatch({ type: 'SET_CAR_REVIEWS', payload: data.car_reviews });
       } catch (error) {
@@ -23,7 +23,7 @@ const CarReviews = () => {
 
   const handleCreateReview = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/carreviews', {
+      const response = await fetch('/carreviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const CarReviews = () => {
 
   const handleUpdateReview = async (id, updatedReview) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/carreviews/${id}`, {
+      const response = await fetch(`/carreviews/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const CarReviews = () => {
 
   const handleDeleteReview = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/carreviews/${id}`, {
+      const response = await fetch(`/carreviews/${id}`, {
         method: 'DELETE',
       });
   

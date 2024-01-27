@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useCarContext } from '../contexts/CarContext';
+import { useParams } from 'react-router-dom';
 
-const CarDetails = ({ carId }) => {
-  const { cars } = useCarContext();
-  const car = cars.find((car) => car.id === carId);
+const CarDetails = () => {
+ 
+  const {carId} = useParams()
+  const [car, setCar] =useState([])
+  useEffect(() => {
+    fetch(`/cars/${carId}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setCar(data)
+    })
+    
+  }, [carId])
+  
+  
 
   if (!car) {
-    return <div>{carId}</div>; // You might want to handle the case where the car is not found differently
+    return <div>loading.....</div>; // You might want to handle the case where the car is not found differently
   }
 
   return (
@@ -14,7 +26,7 @@ const CarDetails = ({ carId }) => {
       <h1 className="text-3xl font-semibold mb-4">{car.name} Details</h1>
 
       <div className="bg-white p-4 rounded-md shadow-md">
-        <img src={car.image} alt={car.name} className="mb-4 rounded-md object-cover h-40 w-full" />
+        <img src={car.image} alt={car.name} className="img-fluid" />
 
         {/* Display other car details here */}
         <div className="mb-2">

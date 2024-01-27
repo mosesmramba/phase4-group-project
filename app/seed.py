@@ -2,11 +2,18 @@ from app import app, db, User, Car, Booking, CarReview
 from datetime import datetime, timedelta
 from faker import Faker
 from random import choice as rc
+from werkzeug.security import generate_password_hash
 
 fake = Faker()
 
 def seed_data():
     with app.app_context():
+
+        User.query.delete()
+        Car.query.delete()
+        Booking.query.delete()
+        CarReview.query.delete()
+        db.session.commit()
         # Users
         users = []
         for _ in range(20):
@@ -14,7 +21,7 @@ def seed_data():
                 username=fake.user_name(),
                 email=fake.email(),
                 phone=fake.phone_number(),
-                password='password'
+                password=generate_password_hash("password")
             )
             users.append(user)
 
@@ -52,24 +59,27 @@ def seed_data():
 
         # Bookings with different start and end dates and calculated price
         bookings = []
-        for i in range(20):
-            start_date = datetime.utcnow() + timedelta(days=i)
-            end_date = start_date + timedelta(days=i + 1)
-            price = car.daily_rate * (end_date - start_date).days
+        for car in cars:
 
-            booking = Booking(
-                start_date=start_date,
-                end_date=end_date,
-                user=rc(users),
-                car=rc(cars),
-                price=price
-            )
-            bookings.append(booking)
+            for i in range(20):
+                start_date = datetime.utcnow() + timedelta(days=i)
+                end_date = start_date + timedelta(days=i + 1)
+                price = car.daily_rate * (end_date - start_date).days
+
+                booking = Booking(
+                    start_date=start_date,
+                    end_date=end_date,
+                    user=rc(users),
+                    car=rc(cars),
+                    price=price
+                )
+                bookings.append(booking)
 
         db.session.add_all(bookings)
 
         # CarReviews
         reviews = []
+        
         for i in range(20):
             review = CarReview(
                 rating=rc(range(1, 5)),

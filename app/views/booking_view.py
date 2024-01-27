@@ -14,10 +14,10 @@ def add_booking():
     if not current_user_id:
         return jsonify({"error": "Invalid token"}), 401
 
-    data = request.form
-    start_date = datetime.strptime(data.get('start_date'), "%Y-%m-%d %H:%M:%S")
-    end_date = datetime.strptime(data.get('end_date'), "%Y-%m-%d %H:%M:%S")
-    car_id = int(data.get('car_id'))
+    data = request.get_json()
+    start_date = datetime.strptime(data['start_date'], "%Y-%m-%d %H:%M:%S")
+    end_date = datetime.strptime(data['end_date'], "%Y-%m-%d %H:%M:%S")
+    car_id = data['car_id']
 
     car = Car.query.get(car_id)
 
@@ -67,11 +67,11 @@ def get_bookings():
             'user_id': booking.user_id,
             'car_id': booking.car_id,
         })
-    return jsonify({"bookings": booking_list}), 200
+    return jsonify(booking_list), 200
 
 # Get a single booking GET
 @booking_bp.route("/bookings/<int:booking_id>")
-@jwt_required() 
+@jwt_required()
 def get_booking(booking_id):
     booking = Booking.query.get(booking_id)
     booking_list = []
@@ -95,11 +95,11 @@ def update_booking(booking_id):
     booking = Booking.query.get(booking_id)
 
     if booking:
-        data = request.form
-        start_date = datetime.strptime(data.get('start_date'), "%Y-%m-%d %H:%M:%S")  # Assuming the date format
-        end_date = datetime.strptime(data.get('end_date'), "%Y-%m-%d %H:%M:%S")
-        user_id = int(data.get('user_id'))
-        car_id = int(data.get('car_id'))
+        data = request.get_json()
+        start_date = datetime.strptime(data['start_date'], "%Y-%m-%d %H:%M:%S")  # Assuming the date format
+        end_date = datetime.strptime(data['end_date'], "%Y-%m-%d %H:%M:%S")
+        user_id = data['user_id']
+        car_id = data['car_id']
 
         # Calculate price based on updated start and end dates
         daily_rate = 3000

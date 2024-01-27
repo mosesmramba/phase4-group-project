@@ -25,7 +25,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await fetch('/users/signup', {
+      const response = await fetch('/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

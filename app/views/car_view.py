@@ -13,14 +13,14 @@ car_bp = Blueprint('car_bp', __name__)
 @car_bp.route("/cars", methods=['POST'])
 @jwt_required() 
 def add_car():
-    data = request.form
-    image = data.get('image')   
-    name = data.get('name')
-    brand = data.get('brand')
-    model = data.get('model')
-    year = int(data.get('year'))
-    color = data.get('color')
-    daily_rate = int(data.get('daily_rate'))
+    data = request.get_json()
+    image = data['image']   
+    name = data['name']
+    brand = data['brand']
+    model = data['model']
+    year = int(data['year'])
+    color = data['color']
+    daily_rate = int(data['daily_rate'])
 
     new_car = Car(image=image,name=name, brand=brand, model=model, year=year, color=color,daily_rate= daily_rate, available=True)
     db.session.add(new_car)
@@ -44,7 +44,7 @@ def get_cars():
             'daily_rate': car.daily_rate,
             'available': car.available,
         })
-    return jsonify({"cars": car_list}), 200
+    return jsonify(car_list), 200
 
 # GETTING A SINGLE CAR
 @car_bp.route("/cars/<int:car_id>")
@@ -74,8 +74,8 @@ def update_car_availability(car_id):
     car = Car.query.get(car_id)
 
     if car:
-        data = request.form
-        available = data.get('available')
+        data = request.get_json()
+        available = data['available']
 
         # Validate the request data
         if available not in ['True', 'False']:

@@ -1,87 +1,42 @@
-// BookingsContext.js
+import React, { createContext, useEffect, useState } from 'react'
 
-import React, { createContext, useReducer, useContext, useEffect } from 'react';
 
-const initialState = {
-  bookings: [],
-  error: null,
-  loading: true,
-};
-
-const actionTypes = {
-  SET_BOOKINGS: 'SET_BOOKINGS',
-  SET_ERROR: 'SET_ERROR',
-  SET_LOADING: 'SET_LOADING',
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case actionTypes.SET_BOOKINGS:
-      return {
-        ...state,
-        bookings: action.payload,
-        loading: false,
-        error: null,
-      };
-    case actionTypes.SET_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-    case actionTypes.SET_LOADING:
-      return {
-        ...state,
-        loading: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-const BookingsContext = createContext();
-
-const BookingsProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export const BookingsContext = createContext()
+export default function BookingsProvider({children}) {
+  const [bookings,setBookings] = useState([])
+  const authToken = sessionStorage.getItem('authToken');
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        dispatch({ type: actionTypes.SET_LOADING, payload: true });
-        const token = localStorage.getItem('your_auth_token_key'); // replace with your actual token key
-        const response = await fetch('/https://127.0.0.1:5000/bookings', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+    
+  
+      fetch('/bookings', {
+        headers: {
+          Authorization: `Bearer ${authToken && authToken}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setBookings(data);
+          // console.log(data)
+        })
+        .catch((error) => {
+          console.log(`Error fetching bookings data: ${error}`);
+        })
+        .finally(() => {
+          
         });
+   
+    
+  }, [])
+  
 
-        if (!response.ok) {
-          throw new Error('Error fetching bookings');
-        }
-
-        const data = await response.json();
-        dispatch({ type: actionTypes.SET_BOOKINGS, payload: data.bookings });
-      } catch (error) {
-        dispatch({ type: actionTypes.SET_ERROR, payload: error.message });
-      }
-    };
-
-    fetchBookings();
-  }, []);
-
+// console.log(bookings)
+  const contextData = {
+    bookings
+  }
   return (
-    <BookingsContext.Provider value={{ state, dispatch }}>
+    <BookingsContext.Provider value={contextData}>
       {children}
     </BookingsContext.Provider>
-  );
-};
-
-const useBookings = () => {
-  const context = useContext(BookingsContext);
-  if (!context) {
-    throw new Error('useBookings must be used within a BookingsProvider');
-  }
-  return context;
-};
-
-export { BookingsProvider, useBookings, actionTypes };
+  )
+}

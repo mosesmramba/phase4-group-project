@@ -10,15 +10,22 @@ import Bookings from './pages/Bookings';
 import CarReviews from './pages/CarReviews';
 import CarDetails from './components/CarDetails';
 import { CarProvider } from './contexts/CarContext';
-import { BookingsProvider } from './contexts/BookingsContext';
 import { CarReviewsProvider } from './contexts/CarReviewsContext';
+import AuthProvider from './contexts/AuthContext';
+import BookingsProvider from './contexts/BookingsContext';
+import Profile from './pages/Profile';
+import ChangePassword from './components/ChangePassword';
+import ViewProfile from './components/ViewProfile';
+
+
 
 function App() {
   return (
-    <CarReviewsProvider>
-    <BookingsProvider>
-    <CarProvider>
     <BrowserRouter>
+    <CarReviewsProvider>
+      <BookingsProvider>
+    <CarProvider>
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -27,14 +34,20 @@ function App() {
           <Route path="/cars/:carId" element={<CarDetails />} />
           <Route path="/bookings" element={<Bookings />} />
           <Route path="/carreviews" element={<CarReviews />} />
-        </Route>
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/profile' element={<Profile/>} />
+          <Route path='/view_profile' element={<ViewProfile />} />
+          <Route path='/change_profile' element={<ChangePassword/>} />
+          </Route>
+        
       </Routes>
-    </BrowserRouter>
+    </AuthProvider>
     </CarProvider>
     </BookingsProvider>
+
     </CarReviewsProvider>
+    </BrowserRouter>
   );
 }
 

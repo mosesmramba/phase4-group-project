@@ -1,57 +1,69 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png';
 import loginImage from '../images/login.jpg';
-import Swal from 'sweetalert2';
+
+import { AuthContext } from '../contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const {login} = useContext(AuthContext)
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+function handleSubmit(e){
+  e.preventDefault()
+  login(email,password)
+}
 
-    try {
-      const response = await fetch('/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          email,
-          password,
-        }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        // Store the access token in localStorage or a state management solution
-        console.log('Access Token:', data.access_token);
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'User logged in successfully!',
-        });
-        // Redirect to the cars page after successful login
-        navigate('/cars');
-      } else {
-        const data = await response.json();
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: data.error || 'Login failed!',
-        });
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'An error occurred during login!',
-      });
-    }
-  };
+
+
+
+
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await fetch('/login', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: new URLSearchParams({
+  //         email,
+  //         password,
+  //       }),
+  //     });
+
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       // Store the access token in localStorage or a state management solution
+  //       console.log('Access Token:', data.access_token);
+  //       Swal.fire({
+  //         icon: 'success',
+  //         title: 'Success!',
+  //         text: 'User logged in successfully!',
+  //       });
+  //       // Redirect to the cars page after successful login
+  //       navigate('/cars');
+  //     } else {
+  //       const data = await response.json();
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'Oops...',
+  //         text: data.error || 'Login failed!',
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during login:', error);
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Oops...',
+  //       text: 'An error occurred during login!',
+  //     });
+  //   }
+  // };
 
   return (
     <div className="container py-16 flex h-screen">
@@ -70,7 +82,7 @@ const LoginPage = () => {
               Not a member? <Link to="/signup" className="text-indigo-600 hover:underline">Sign Up</Link>
             </p>
           </div>
-          <form onSubmit={handleLogin} className="mt-4">
+          <form onSubmit={handleSubmit} className="mt-4">
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email address</label>
               <input

@@ -1,56 +1,139 @@
-// AuthContext.js
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-const AuthContext = createContext();
+export const AuthContext = createContext()
 
-const initialState = {
-  user: null,
-  isAuthenticated: false,
-};
+export default function AuthProvider({children}) {
+  const [authToken, setAuthToken] = useState(()=> sessionStorage.getItem("authToken")? sessionStorage.getItem("authToken"): null )
+  const [currentUser, setCurrentUser] = useState(null)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const navigate = useNavigate()
+  const [onchange, setOnchange] = useState(false)
 
-const authReducer = (state, action) => {
-  switch (action.type) {
-    case 'LOGIN':
-      return {
-        ...state,
-        user: action.payload.user,
-        isAuthenticated: true,
-      };
-    case 'LOGOUT':
-      return {
-        ...state,
-        user: null,
-        isAuthenticated: false,
-      };
-    default:
-      return state;
+
+  // Login
+  function login(email, password)
+  {
+      fetch("/login",{
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+
+          },
+          body: JSON.stringify({email,password })
+
+      }
+      )
+      .then(res => res.json())
+      .then(response => {
+          
+          if (response.access_token)
+          {
+              sessionStorage.setItem("authToken", response.access_token);
+              setAuthToken(response.access_token)
+              setLoggedIn(true)
+
+              navigate("/cars")
+              Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Login success",
+              showConfirmButton: false,
+              timer: 1500
+              });
+
+              setOnchange(!onchange)
+          }
+          else{
+              Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: response.error,
+                  showConfirmButton: false,
+                  timer: 1500
+                  });
+          }
+
+
+      })
   }
-};
 
-const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const login = (user) => {
-    dispatch({ type: 'LOGIN', payload: { user } });
-  };
+    // Get Authenticated user
+    useEffect(()=>{
+      if(authToken)
+      {
+          fetch("/loggedIn",{
+          method: "GET",
+          headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${authToken}`
+          }
+          })
+          .then(res => res.json())
+          .then(response => {
+              if(response.email || response.username){
+                  setCurrentUser(response)
+                  
+                  setCurrentUser(response)
+                  // console.log(response)
 
-  const logout = () => {
-    dispatch({ type: 'LOGOUT' });
-  };
+                  setLoggedIn(true)
+              }
+              else{
+                  setCurrentUser(null)
+                  setLoggedIn(false)
+                  navigate('/')
+              }
+          })
+      }
+  
 
+  }, [authToken, onchange])
+  // console.log(currentUser)
+
+    //logout
+    function logout(){
+      fetch('/logout',{
+         method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${authToken && authToken}`
+        }
+
+     })
+     .then(res => res.json())
+     .then(response => {
+      Swal.fire({
+         position: "top-end",
+         icon: "success",
+         title: response.success,
+         showConfirmButton: false,
+         timer: 1500
+         });
+         navigate('/')
+         setLoggedIn(false)
+         
+     })
+     
+     setLoggedIn(false)
+     navigate('/')
+   }
+
+
+
+
+  const contextData = {
+    login,
+    currentUser,
+    loggedIn,
+    logout
+
+  }
   return (
-    <AuthContext.Provider value={{ state, login, logout }}>
+    <AuthContext.Provider value={contextData}>
       {children}
     </AuthContext.Provider>
-  );
-};
-
-const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-export { AuthProvider, useAuth };
+  )
+}
