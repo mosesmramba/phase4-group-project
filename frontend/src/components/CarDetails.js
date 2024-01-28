@@ -7,7 +7,7 @@ const CarDetails = () => {
   const {carId} = useParams()
   const [car, setCar] =useState([])
   useEffect(() => {
-    fetch(`/cars/${carId}`)
+    fetch(`https://rent-car-xa5m.onrender.com/cars/${carId}`)
     .then((res) => res.json())
     .then((data) => {
       setCar(data)

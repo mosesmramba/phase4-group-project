@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function ChangePassword() {
   const navigate = useNavigate();
@@ -25,11 +26,22 @@ export default function ChangePassword() {
         if (response.success) {
           // Password changed successfully, navigate to the desired page
           navigate('/view_profile');
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Password changed successfully!',
+          });
         } else {
           // Display an error message based on the response
           const errorData = await response.json();
           navigate('/view_profile');
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Password changed successfully!',
+          });
         }
+        
       } catch (error) {
         console.error('Error changing password:', error.message);
       }
