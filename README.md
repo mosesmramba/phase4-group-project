@@ -54,8 +54,8 @@ The Car Rentals Management project is a web application designed to streamline t
 6. Navigate to the project's "frontend" folder and run `npm start`.
 
 ## Project Links
-- **Frontend Link:** [Add your frontend link here]
-- **Backend Link:** [Add your backend link here]
+- **Frontend Link:** https://candid-zuccutto-e78bda.netlify.app
+- **Backend Link:** https://rent-car-xa5m.onrender.com
 
 ## Technology Used
 - Python
