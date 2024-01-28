@@ -10,7 +10,7 @@ export default function ChangePassword() {
   const handleChangePassword = async () => {
     if (newPassword === confirmPassword) {
       try {
-        const response = await fetch('/change_password', {
+        const response = await fetch('https://rent-car-xa5m.onrender.com/change_password', {
           method: 'POST',
           headers: {
           'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export default function ChangePassword() {
         } else {
           // Display an error message based on the response
           const errorData = await response.json();
-          alert(`Error: ${errorData.message}`);
+          navigate('/view_profile');
         }
       } catch (error) {
         console.error('Error changing password:', error.message);

@@ -36,7 +36,7 @@ const UserProvider = ({ children }) => {
     // You need to replace the placeholder logic with your actual authentication check
     const isAuthenticated = /* Implement your authentication check logic */ false;
     if (isAuthenticated) {
-      fetch('http://127.0.0.1:5000/loggedIn')
+      fetch('https://rent-car-xa5m.onrender.com/loggedIn')
         .then((response) => response.json())
         .then((data) => {
           dispatch({ type: 'SET_USER', payload: { user: data } });
@@ -46,7 +46,7 @@ const UserProvider = ({ children }) => {
   }, []); 
 
   const loginUser = (userData) => {
-    fetch('http://127.0.0.1:5000/login', {
+    fetch('https://rent-car-xa5m.onrender.com/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const UserProvider = ({ children }) => {
   };
 
   const logoutUser = () => {
-    fetch('http://127.0.0.1:5000/logout', {
+    fetch('https://rent-car-xa5m.onrender.com/logout', {
       method: 'POST',
     })
       .then(() => {

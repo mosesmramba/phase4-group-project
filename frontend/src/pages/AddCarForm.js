@@ -40,7 +40,7 @@ const AddCarForm = () => {
         return;
       }
 
-      const response = await fetch('/add_car', {
+      const response = await fetch('https://rent-car-xa5m.onrender.com/add_car', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

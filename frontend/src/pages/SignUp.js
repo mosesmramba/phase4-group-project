@@ -25,7 +25,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await fetch('/register', {
+      const response = await fetch('https://rent-car-xa5m.onrender.com/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

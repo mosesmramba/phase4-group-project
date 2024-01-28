@@ -15,12 +15,12 @@ const Profile = () => {
             View Profile
           </Link>
           <br />
-          <Link to={'/change_profile'} className="btn btn-primary mt-2">
+          <Link to={'/change_password'} className="btn btn-primary mt-2">
             Change Password
           </Link>
           <div className="mt-4">
             {window.location.pathname === '/view_profile' && <ViewProfile />}
-            {window.location.pathname === '/change_profile' && <ChangePassword />}
+            {window.location.pathname === '/change_password' && <ChangePassword />}
           </div>
         </div>
       </div>

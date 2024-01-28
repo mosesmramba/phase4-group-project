@@ -15,7 +15,7 @@ export default function AuthProvider({children}) {
   // Login
   function login(email, password)
   {
-      fetch("/login",{
+      fetch("https://rent-car-xa5m.onrender.com/login",{
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export default function AuthProvider({children}) {
     useEffect(()=>{
       if(authToken)
       {
-          fetch("/loggedIn",{
+          fetch("https://rent-car-xa5m.onrender.com/loggedIn",{
           method: "GET",
           headers: {
               Accept: "application/json",
@@ -95,7 +95,7 @@ export default function AuthProvider({children}) {
 
     //logout
     function logout(){
-      fetch('/logout',{
+      fetch('https://rent-car-xa5m.onrender.com/logout',{
          method: 'POST',
           headers: {
             'Content-Type': 'application/json',

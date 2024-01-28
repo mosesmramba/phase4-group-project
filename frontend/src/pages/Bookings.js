@@ -22,7 +22,7 @@ const Bookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/bookings');
+      const response = await fetch('https://rent-car-xa5m.onrender.com/bookings');
       if (!response.ok) {
         throw new Error('Failed to fetch bookings');
       }
@@ -36,7 +36,7 @@ const Bookings = () => {
   // Function to handle booking deletion
   const handleDelete = async (bookingId) => {
     try {
-      const response = await fetch(`/bookings/${bookingId}`, {
+      const response = await fetch(`https://rent-car-xa5m.onrender.com/bookings/${bookingId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const Bookings = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`/bookings/${formData.id}`, {
+      const response = await fetch(`https://rent-car-xa5m.onrender.com/bookings/${formData.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

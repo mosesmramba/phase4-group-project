@@ -37,7 +37,7 @@ export const CarReviewsProvider = ({ children }) => {
   useEffect(() => {
     const fetchCarReviews = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/carreviews'); // Adjust the API endpoint accordingly
+        const response = await fetch('https://rent-car-xa5m.onrender.com/carreviews'); 
         const data = await response.json();
         dispatch({ type: actions.SET_CAR_REVIEWS, payload: data.car_reviews });
       } catch (error) {

@@ -28,7 +28,6 @@ const CarDetails = () => {
       <div className="bg-white p-4 rounded-md shadow-md">
         <img src={car.image} alt={car.name} className="img-fluid" />
 
-        {/* Display other car details here */}
         <div className="mb-2">
           <span className="font-semibold">Name:</span> {car.name}
         </div>

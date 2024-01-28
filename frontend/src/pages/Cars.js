@@ -25,7 +25,7 @@ const Cars = () => {
       <div className="grid grid-cols-4 gap-4">
         {cars.map((car) => (
           <div key={car.id} className="hover:cursor-pointer">
-            <Link to={`/cars/${car.id}`}>
+            <Link to={`https://rent-car-xa5m.onrender.com/cars/${car.id}`}>
               <div className="bg-white p-4 rounded-md shadow-md">
                 <img
                   src={car.image}

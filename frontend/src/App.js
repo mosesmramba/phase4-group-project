@@ -40,7 +40,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<Profile/>} />
           <Route path='/view_profile' element={<ViewProfile />} />
-          <Route path='/change_profile' element={<ChangePassword/>} />
+          <Route path='/change_password' element={<ChangePassword/>} />
           <Route path='/add_car' element={<AddCarForm/>} />
           <Route path='/rent-vehicle' element={<AddBookingForm/>} />
           </Route>

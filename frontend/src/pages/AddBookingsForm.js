@@ -34,7 +34,7 @@ const AddBookingForm = () => {
         return;
       }
 
-      const response = await fetch('/rent-vehicle', {
+      const response = await fetch('https://rent-car-xa5m.onrender.com/rent-vehicle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

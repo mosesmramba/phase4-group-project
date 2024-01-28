@@ -16,7 +16,7 @@ export const CarProvider = ({ children }) => {
   // Function to fetch the list of cars from the backend
   const fetchCars = async () => {
     try {
-      const response = await fetch('/cars');
+      const response = await fetch('https://rent-car-xa5m.onrender.com/cars');
       const data = await response.json();
       setCars(data);
     } catch (error) {
@@ -27,7 +27,7 @@ export const CarProvider = ({ children }) => {
   // Function to add a new car
   const addCar = async (newCarData) => {
     try {
-      const response = await fetch('/cars', {
+      const response = await fetch('https://rent-car-xa5m.onrender.com/cars', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const CarProvider = ({ children }) => {
   // Function to update car availability
   const updateCarAvailability = async (carId, available) => {
     try {
-      const response = await fetch(`/cars/${carId}/availability`, {
+      const response = await fetch(`https://rent-car-xa5m.onrender.com/cars/${carId}/availability`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -73,7 +73,7 @@ export const CarProvider = ({ children }) => {
   // Function to delete a car
   const deleteCar = async (carId) => {
     try {
-      const response = await fetch(`/cars/${carId}`, {
+      const response = await fetch(`https://rent-car-xa5m.onrender.com/cars/${carId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

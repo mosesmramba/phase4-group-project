@@ -9,7 +9,7 @@ export default function BookingsProvider({children}) {
   useEffect(() => {
     
   
-      fetch('/bookings', {
+      fetch('https://rent-car-xa5m.onrender.com/bookings', {
         headers: {
           Authorization: `Bearer ${authToken && authToken}`,
         },
