@@ -10,7 +10,7 @@ from flask import Flask, jsonify, request, Blueprint
 car_bp = Blueprint('car_bp', __name__)
 
 # ADDING A NEW CAR
-@car_bp.route("/cars", methods=['POST'])
+@car_bp.route("/add_car", methods=['POST'])
 @jwt_required() 
 def add_car():
     data = request.get_json()

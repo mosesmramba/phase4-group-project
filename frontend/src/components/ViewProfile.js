@@ -11,6 +11,7 @@ const ViewProfile = () => {
       </div>
       <div className="card-body">
         <div>
+        <p className="mb-1">id: {currentUser.id}</p>
           <p className="mb-1">Username: {currentUser.username}</p>
           <p className="mb-1">Email: {currentUser.email}</p>
           <p className="mb-0">Phone: {currentUser.phone}</p>

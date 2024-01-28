@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Create a context for managing car-related state and actions
 const CarContext = createContext();
-
+const authToken = sessionStorage.getItem('authToken');
 // Custom hook to access the car context
 export const useCarContext = () => {
   return useContext(CarContext);
@@ -76,7 +76,8 @@ export const CarProvider = ({ children }) => {
       const response = await fetch(`/cars/${carId}`, {
         method: 'DELETE',
         headers: {
-          // Add your JWT token header if needed
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
         },
       });
 

@@ -16,6 +16,8 @@ import BookingsProvider from './contexts/BookingsContext';
 import Profile from './pages/Profile';
 import ChangePassword from './components/ChangePassword';
 import ViewProfile from './components/ViewProfile';
+import AddCarForm from './pages/AddCarForm';
+import AddBookingForm from './pages/AddBookingsForm';
 
 
 
@@ -39,6 +41,8 @@ function App() {
           <Route path='/profile' element={<Profile/>} />
           <Route path='/view_profile' element={<ViewProfile />} />
           <Route path='/change_profile' element={<ChangePassword/>} />
+          <Route path='/add_car' element={<AddCarForm/>} />
+          <Route path='/rent-vehicle' element={<AddBookingForm/>} />
           </Route>
         
       </Routes>

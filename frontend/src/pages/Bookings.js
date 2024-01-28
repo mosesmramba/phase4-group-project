@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { BookingsContext } from '../contexts/BookingsContext';
+import { Link } from 'react-router-dom';
 
 const Bookings = () => {
   const { bookings, setBookings } = useContext(BookingsContext);
@@ -82,7 +83,10 @@ const Bookings = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4">Bookings</h1>
+      <Link to={'/rent-vehicle'} className="btn btn-primary">
+        Add Booking
+      </Link>
+      <h1 className="mb-4">BOOKINGS</h1>
 
       {showEditForm && (
         <form onSubmit={handleSubmit} className="mb-4">
