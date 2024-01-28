@@ -9,7 +9,7 @@ from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db.sqlite" 
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://rent_a_car_i1vb_user:3pOProb9BCG3vcW9r0KeTNKJa2xB6gpl@dpg-cmqudla1hbls73fm4pf0-a.oregon-postgres.render.com/rent_a_car_i1vb" 
 CORS(app)
 db.init_app(app)
 migrate = Migrate(app, db) 
