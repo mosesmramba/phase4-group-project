@@ -18,19 +18,20 @@ The Car Rentals Management project is a web application designed to streamline t
 - [License](#license)
 
 ## User Stories
-- As a user, I can sign up for an account.
-- As a user, I can delete and update my account.
-- As a user, I can log in to the site and remain logged in.
-- As a user, I can log out.
-- As a user, I can view a list of available cars for rent.
-- As a user, I can filter and search for cars based on criteria.
-- As a user, I can view details about a specific car.
-- As a user, I can book a car for a specific duration.
-- As a user, I can view my booking history.
-- As an admin, I can add new cars to the inventory.
-- As an admin, I can mark a car as unavailable.
-- As a user, I can rate and leave a review for a rented car.
-- As a user, I can see recommended cars based on my booking history.
+- I can sign up for an account.
+- I can  update my account.
+- I can view my profile
+- I can change my password
+- I can log in to the site and remain logged in.
+- I can log out
+- I can add a booking
+- I can delete a booking
+- I can update the booking
+- I can view a list of available cars for rent.
+- I can view details about a specific car.
+- I can book a car for a specific duration.
+- I can view my booking history.
+- I can add new cars to the inventory.
 
 ## Features
 - User authentication and authorization system.
